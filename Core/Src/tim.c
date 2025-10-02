@@ -91,11 +91,9 @@ void MX_TIM1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN TIM1_Init 2 */
-
+  HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_2);
   /* USER CODE END TIM1_Init 2 */
   HAL_TIM_MspPostInit(&htim1);
-  HAL_TIM_Base_Start(&htim1);
-  HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_2);
 }
 
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)

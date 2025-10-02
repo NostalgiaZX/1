@@ -18,6 +18,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+
+#include <math.h>
+
 #include "tim.h"
 #include "gpio.h"
 
@@ -66,7 +69,6 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -99,7 +101,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
+    uint32_t value=__HAL_TIM_GET_AUTORELOAD(&htim1);
+    uint32_t brightness=value*sinf(4*HAL_GetTick()/1000.0f)-1;
+    __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,brightness);
   }
   /* USER CODE END 3 */
 }

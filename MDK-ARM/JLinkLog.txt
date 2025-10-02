@@ -1,0 +1,46 @@
+T513C 002:318.075   SEGGER J-Link V7.82 Log File
+T513C 002:320.227   DLL Compiled: Oct 13 2022 13:32:51
+T513C 002:320.242   Logging started @ 2025-10-02 07:23
+T513C 002:320.256 - 2320.263ms
+T513C 002:320.443 JLINK_SetWarnOutHandler(...)
+T513C 002:320.612 - 0.176ms
+T513C 002:320.629 JLINK_OpenEx(...)
+T513C 002:322.231   
+  ***** Error: 
+T513C 002:322.264   Cannot connect to J-Link.
+T513C 002:329.462 - 8.854ms returns "Cannot connect to J-Link."
+T513C 002:329.700 
+  ***** 
+T513C 002:329.730 API Error: API JLINK_GetHardwareVersion function called before JLINKARM_Open()
+T513C 002:329.754 JLINK_GetHardwareVersion()
+T513C 002:330.421   
+  ***** Error: 
+T513C 002:330.454   Cannot connect to J-Link.
+T513C 002:335.860 - 6.225ms
+T513C 007:501.704 JLINK_IsOpen()
+T513C 007:501.724 - 0.022ms returns 0x00
+T513C 007:501.737 JLINK_EMU_SelectByUSBSN(SerialNo = 0)
+T513C 007:502.430 - 0.700ms returns 0xFFFFFFFF
+T513C 007:502.442 JLINK_EnableLog(...)
+T513C 007:502.448 - 0.007ms
+T513C 007:502.454 JLINK_SetLogFile(...)
+T513C 007:502.461 - 0.010ms
+T513C 007:502.467 JLINK_SetWarnOutHandler(...)
+T513C 007:502.472 - 0.007ms
+T513C 007:502.478 JLINK_OpenEx(...)
+T513C 007:503.101   
+  ***** Error: 
+T513C 007:503.112   Cannot connect to J-Link.
+T513C 007:509.916 - 7.470ms returns "Cannot connect to J-Link."
+T513C 007:510.223 
+  ***** 
+T513C 007:510.235 API Error: API JLINK_GetHardwareVersion function called before JLINKARM_Open()
+T513C 007:510.244 JLINK_GetHardwareVersion()
+T513C 007:510.861   
+  ***** Error: 
+T513C 007:510.873   Cannot connect to J-Link.
+T513C 007:516.331 - 6.097ms
+T513C 011:166.167 JLINK_Close()
+T513C 011:166.275 - 0.111ms
+T513C 011:166.285   
+T513C 011:166.290   Closed

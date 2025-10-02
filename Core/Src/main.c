@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -44,8 +45,11 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+uint8_t receive[4];
+uint8_t transmit[4];
 uint32_t flag=0;
 uint32_t count=20000;
+uint16_t size=1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -65,7 +69,6 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
   /* USER CODE END 1 */
 
@@ -88,7 +91,10 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM1_Init();
+  MX_UART7_Init();
   /* USER CODE BEGIN 2 */
+  uint8_t arr[]="ROBOMASTER123";
+  HAL_UART_Receive_IT(&huart7,receive,size);
 
   /* USER CODE END 2 */
 
@@ -97,6 +103,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -155,12 +162,27 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void copyarr(uint8_t *a, uint8_t *b , uint8_t len)
+{
+  uint8_t i;
+  for(i=0; i<len; i++)
+  {
+    b[i] = a[i];
+  }
+}
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
   HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_14);
 
 }
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+  if (huart == &huart7)
+  {
+    copyarr(receive,transmit,size);
+    HAL_UART_Transmit(&huart7,transmit,size,1000);
+  }
+  HAL_UART_Receive_IT(&huart7,receive,size);
+}
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 

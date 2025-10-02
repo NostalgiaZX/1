@@ -34,6 +34,11 @@ enable_language(C ASM)
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME}
         Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_iwdg.h
+        Core/Src/usart.c
+        Core/Src/usart.c
+        Core/Src/usart.c
+        Core/Src/usart.c
+        Core/Src/usart.c
 )
 
 # Add STM32CubeMX generated sources

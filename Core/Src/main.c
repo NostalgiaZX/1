@@ -99,14 +99,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    if (__HAL_TIM_GET_COUNTER(&htim1)>5000)
-    {
-      HAL_GPIO_WritePin(GPIOE, LEDR_Pin, GPIO_PIN_RESET);
-    }
-    else
-    {
-      HAL_GPIO_WritePin(GPIOE, LEDR_Pin, GPIO_PIN_SET);
-    }
+
   }
   /* USER CODE END 3 */
 }

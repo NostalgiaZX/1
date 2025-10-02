@@ -98,9 +98,6 @@ int main(void)
   {
     /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
-    uint32_t value=__HAL_TIM_GET_AUTORELOAD(&htim1)+1;
-    uint32_t brightness=value*sinf(4*HAL_GetTick()/1000.f)-1;
-    __HAL_TIM_SetCompare(&htim1,TIM_CHANNEL_2,brightness);
   }
   /* USER CODE END 3 */
 }
@@ -166,9 +163,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-  if (count>0){
-    count--;
-  }
+
+  uint32_t value=__HAL_TIM_GET_AUTORELOAD(&htim1)+1;
+  uint32_t brightness=value*sinf(4*HAL_GetTick()/1000.f)-1;
+  __HAL_TIM_SetCompare(&htim1,TIM_CHANNEL_2,brightness);
 }
 /* USER CODE END 4 */
 

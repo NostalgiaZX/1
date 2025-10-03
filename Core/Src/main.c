@@ -18,10 +18,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "can.h"
 #include "tim.h"
-#include "usart.h"
 #include "gpio.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <math.h>
@@ -45,11 +44,29 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t receive[4];
-uint8_t transmit[4];
-uint32_t flag=0;
-uint32_t count=20000;
-uint16_t size=1;
+float angle=0.f;
+CAN_TxHeaderTypeDef txheader = {
+  .StdId=0x200,
+  .ExtId=0,
+  .RTR=CAN_RTR_DATA,
+  .IDE=CAN_ID_STD,
+  .DLC=8,
+  .TransmitGlobalTime = DISABLE
+};
+CAN_RxHeaderTypeDef rxheader;
+uint8_t rxdata[8];
+uint8_t txdata[8]={0x00,0xC0,0x00,0x00,0x00,0x00,0x00,0x00};
+CAN_FilterTypeDef filter ={
+  .FilterIdHigh=0x0000,
+  .FilterIdLow = 0x0000,
+  .FilterMaskIdHigh = 0x0000,
+  .FilterMaskIdLow = 0x0000,
+  .FilterActivation = ENABLE,
+  .FilterBank = 0,
+  .FilterFIFOAssignment = CAN_FILTER_FIFO0,
+  .FilterMode = CAN_FILTERMODE_IDMASK,
+  .FilterScale = CAN_FILTERSCALE_32BIT
+};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -69,6 +86,7 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
   /* USER CODE END 1 */
 
@@ -90,12 +108,12 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_TIM1_Init();
-  MX_UART7_Init();
+  MX_CAN1_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t arr[]="ROBOMASTER123";
-  HAL_UART_Receive_IT(&huart7,receive,size);
-
+  HAL_CAN_ConfigFilter(&hcan1,&filter);
+  HAL_CAN_Start(&hcan1);
+  HAL_CAN_ActivateNotification(&hcan1,CAN_IT_RX_FIFO0_MSG_PENDING);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -162,34 +180,8 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void copyarr(uint8_t *a, uint8_t *b , uint8_t len)
-{
-  uint8_t i;
-  for(i=0; i<len; i++)
-  {
-    b[i] = a[i];
-  }
-}
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-  HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_14);
 
-}
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
-  if (huart == &huart7)
-  {
-    copyarr(receive,transmit,size);
-    HAL_UART_Transmit(&huart7,transmit,size,1000);
-  }
-  HAL_UART_Receive_IT(&huart7,receive,size);
-}
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
 
-  uint32_t value=__HAL_TIM_GET_AUTORELOAD(&htim1)+1;
-  uint32_t brightness=value*sinf(4*HAL_GetTick()/1000.f)-1;
-  __HAL_TIM_SetCompare(&htim1,TIM_CHANNEL_2,brightness);
-}
 /* USER CODE END 4 */
 
 /**

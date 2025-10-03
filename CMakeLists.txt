@@ -39,6 +39,9 @@ add_executable(${CMAKE_PROJECT_NAME}
         Core/Src/usart.c
         Core/Src/usart.c
         Core/Src/usart.c
+        Core/Src/motor.cpp
+        Core/Inc/motor.h
+        Core/Src/callback.cpp
 )
 
 # Add STM32CubeMX generated sources

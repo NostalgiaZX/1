@@ -8,9 +8,9 @@ return out;
 }
 float trans360(float in)
 {
-    while (in>360.0)
+    while (in>180.0)
    {in-=360.0;}
-    while (in<0.0)
+    while (in<-180.0)
    {in+=360.0;}
     return in;
 }
@@ -18,12 +18,12 @@ void Motor::canrxmsgcallback(const uint8_t rdata[8]){
    temp=rdata[6];
    int I=(rdata[4]<<8)|rdata[5];
    current=linermap(I,-16384,16384,-20,20);
-   rotate_speed=(rdata[2]<<8)|rdata[3];
+	 int temp=(rdata[2]<<8)|rdata[3];
+   rotate_speed=(float)temp*19.2;
    last_ecd_angle=ecd_angle;
-   ecd_angle=(rdata[0]<<8)|rdata[1];
-   delta_ecd_angle=ecd_angle-last_ecd_angle;
-   delta_angle=linermap(delta_ecd_angle,0,8191,0.0,360.0)/ratio;
-   delta_angle=trans360(delta_angle);
+   ecd_angle=linermap((rdata[0]<<8)|rdata[1],0,8191,0,360);
+   delta_ecd_angle=trans360(ecd_angle-last_ecd_angle);
+   delta_angle=delta_ecd_angle/ratio;
    angle+=delta_angle;
 
 }
